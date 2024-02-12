@@ -1,13 +1,12 @@
+import { AnswerQuestionUseCase } from './answer-question'
+import { InMemoryAnswersRepository } from '@/test/repositories/in-memory-answers-repository'
 
-import { AnswerQuestionUseCase } from './answer-question';
-import { InMemoryAnswerRepository } from '@/test/repositories/in-memory-answer-repository';
-
-let inMemoryAnswerRepository: InMemoryAnswerRepository
+let inMemoryAnswerRepository: InMemoryAnswersRepository
 let sut: AnswerQuestionUseCase
 
 describe('create answer', () => {
   beforeEach(() => {
-    inMemoryAnswerRepository = new InMemoryAnswerRepository()
+    inMemoryAnswerRepository = new InMemoryAnswersRepository()
     sut = new AnswerQuestionUseCase(inMemoryAnswerRepository)
   })
 
@@ -22,4 +21,3 @@ describe('create answer', () => {
     expect(inMemoryAnswerRepository.items[0].id).toEqual(answer.id)
   })
 })
-
