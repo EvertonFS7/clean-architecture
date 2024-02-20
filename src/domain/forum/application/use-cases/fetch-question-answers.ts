@@ -1,4 +1,4 @@
-import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
+import { AnswersRepository } from '@/domain/forum/application/repositories/answer-repository'
 
 import { Answer } from '../../enterprise/entities/answer'
 

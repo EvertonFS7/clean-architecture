@@ -1,18 +1,18 @@
 import { makeQuestion } from '@/test/factories/make-question'
-import { InMemoryQuestionsCommentRepository } from '@/test/repositories/in-memory-question-comments-repository'
+import { InMemoryQuestionCommentsRepository } from '@/test/repositories/in-memory-question-comments-repository'
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository'
 
 import { CommentOnQuestionUseCase } from './comment-on-question'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionCommentsRepository: InMemoryQuestionsCommentRepository
+let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
 let sut: CommentOnQuestionUseCase
 
 describe('Choose Question Best Answer', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
     inMemoryQuestionCommentsRepository =
-      new InMemoryQuestionsCommentRepository()
+      new InMemoryQuestionCommentsRepository()
     sut = new CommentOnQuestionUseCase(
       inMemoryQuestionsRepository,
       inMemoryQuestionCommentsRepository,

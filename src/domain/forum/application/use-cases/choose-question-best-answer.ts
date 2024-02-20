@@ -1,5 +1,5 @@
 import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository'
-import { AnswersRepository } from '../repositories/answers-repository'
+import { AnswersRepository } from '../repositories/answer-repository'
 import { Question } from '../../enterprise/entities/question'
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
