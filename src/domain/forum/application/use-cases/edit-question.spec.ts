@@ -13,9 +13,15 @@ let sut: EditQuestionUseCase
 
 describe('Edit Question', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    inMemoryQuestionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
-    sut = new EditQuestionUseCase(inMemoryQuestionsRepository, inMemoryQuestionAttachmentsRepository)
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository,
+    )
+    sut = new EditQuestionUseCase(
+      inMemoryQuestionsRepository,
+      inMemoryQuestionAttachmentsRepository,
+    )
   })
 
   it('should be able to edit a question', async () => {
@@ -31,12 +37,12 @@ describe('Edit Question', () => {
     inMemoryQuestionAttachmentsRepository.items.push(
       makeQuestionAttachment({
         questionId: newQuestion.id,
-        attachmentId: new UniqueEntityID('1')
+        attachmentId: new UniqueEntityID('1'),
       }),
       makeQuestionAttachment({
         questionId: newQuestion.id,
-        attachmentId: new UniqueEntityID('2')
-      })
+        attachmentId: new UniqueEntityID('2'),
+      }),
     )
 
     await sut.execute({
@@ -44,15 +50,19 @@ describe('Edit Question', () => {
       authorId: 'author-1',
       title: 'Pergunta teste',
       content: 'Conteúdo teste',
-      attachmentsIds: ['1', '3']
+      attachmentsIds: ['1', '3'],
     })
 
     expect(inMemoryQuestionsRepository.items[0]).toMatchObject({
       title: 'Pergunta teste',
       content: 'Conteúdo teste',
     })
-    expect(inMemoryQuestionsRepository.items[0].attachments.currentItems).toHaveLength(2)
-    expect(inMemoryQuestionsRepository.items[0].attachments.currentItems).toEqual([
+    expect(
+      inMemoryQuestionsRepository.items[0].attachments.currentItems,
+    ).toHaveLength(2)
+    expect(
+      inMemoryQuestionsRepository.items[0].attachments.currentItems,
+    ).toEqual([
       expect.objectContaining({ attachmentId: new UniqueEntityID('1') }),
       expect.objectContaining({ attachmentId: new UniqueEntityID('3') }),
     ])
@@ -73,7 +83,7 @@ describe('Edit Question', () => {
       authorId: 'author-2',
       title: 'Pergunta teste',
       content: 'Conteúdo teste',
-      attachmentsIds: []
+      attachmentsIds: [],
     })
 
     expect(result.isLeft()).toBe(true)

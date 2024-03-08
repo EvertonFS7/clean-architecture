@@ -16,5 +16,5 @@ export function makeAnswer(
     id,
   )
 
-  return answer 
+  return answer
 }

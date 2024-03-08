@@ -16,24 +16,25 @@ interface EditQuestionUseCaseRequest {
   attachmentsIds: string[]
 }
 
-type EditQuestionUseCaseResponse = Either<ResourceNotFoundError
-  | NotAllowedError, {
+type EditQuestionUseCaseResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  {
     question: Question
-  }>
-
+  }
+>
 
 export class EditQuestionUseCase {
   constructor(
     private questionRepository: QuestionsRepository,
     private questionAttachmentsRepository: QuestionAttachmentRepository,
-  ) { }
+  ) {}
 
   async execute({
     authorId,
     questionId,
     title,
     content,
-    attachmentsIds
+    attachmentsIds,
   }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
     const question = await this.questionRepository.findById(questionId)
 
@@ -48,20 +49,22 @@ export class EditQuestionUseCase {
     const currentQuestionAttachments =
       await this.questionAttachmentsRepository.findManyByQuestionId(questionId)
 
-    const questionAttachmentsList = new QuestionAttachmentList(currentQuestionAttachments)
-    
+    const questionAttachmentsList = new QuestionAttachmentList(
+      currentQuestionAttachments,
+    )
+
     const questionAttachments = attachmentsIds.map((attachmentId) => {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityID(attachmentId),
-        questionId: question.id
+        questionId: question.id,
       })
     })
 
     questionAttachmentsList.update(questionAttachments)
 
+    question.attachments = questionAttachmentsList
     question.title = title
     question.content = content
-    question.attachments = questionAttachmentsList
 
     await this.questionRepository.save(question)
 

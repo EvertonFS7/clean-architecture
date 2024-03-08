@@ -38,7 +38,7 @@ describe('Delete Answer Comment', () => {
       answerCommentId: answerComment.id.toString(),
       authorId: 'author-2',
     })
-    
+
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotAllowedError)
   })

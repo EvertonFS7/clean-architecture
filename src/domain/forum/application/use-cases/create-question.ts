@@ -12,29 +12,32 @@ interface CreateQuestionUseCaseRequest {
   attachmentsIds: string[]
 }
 
-type CreateQuestionUseCaseResponse = Either<null, {
-  question: Question
-}>
+type CreateQuestionUseCaseResponse = Either<
+  null,
+  {
+    question: Question
+  }
+>
 
 export class CreateQuestionUseCase {
-  constructor(private questionRepository: QuestionsRepository) { }
+  constructor(private questionRepository: QuestionsRepository) {}
 
   async execute({
     authorId,
     content,
     title,
-    attachmentsIds
+    attachmentsIds,
   }: CreateQuestionUseCaseRequest): Promise<CreateQuestionUseCaseResponse> {
     const question = Question.create({
       authorId: new UniqueEntityID(authorId),
       title,
       content,
     })
-    
+
     const questionAttachments = attachmentsIds.map((attachmentId) => {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityID(attachmentId),
-        questionId: question.id
+        questionId: question.id,
       })
     })
 
