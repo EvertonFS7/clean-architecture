@@ -4,7 +4,11 @@ import { InMemoryAnswersRepository } from '@/test/repositories/in-memory-answers
 import { InMemoryAnswerAttachmentsRepository } from '@/test/repositories/in-memory-attachments-repository'
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository'
 import { InMemoryQuestionAttachmentsRepository } from '@/test/repositories/in-memory-question-attachments-repository'
-import { SendNotificationUseCase, SendNotificationUseCaseRequest, SendNotificationUseCaseResponse } from '../use-cases/send-notification'
+import {
+  SendNotificationUseCase,
+  SendNotificationUseCaseRequest,
+  SendNotificationUseCaseResponse,
+} from '../use-cases/send-notification'
 import { InMemoryNotificationsRepository } from '@/test/repositories/in-memory-notification-repository'
 import { makeQuestion } from '@/test/factories/make-question'
 import { SpyInstance } from 'vitest'
@@ -26,8 +30,9 @@ describe('On Answer Created', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
-    inMemoryQuestionsRepository =
-      new InMemoryQuestionsRepository(inMemoryQuestionAttachmentsRepository)
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository,
+    )
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
@@ -40,10 +45,7 @@ describe('On Answer Created', () => {
 
     sendNotificationExecuteSpy = vi.spyOn(sendNotificationUseCase, 'execute')
 
-    new OnAnswerCreated(
-      inMemoryQuestionsRepository,
-      sendNotificationUseCase
-    )
+    new OnAnswerCreated(inMemoryQuestionsRepository, sendNotificationUseCase)
   })
 
   it('should send a notification when an answer is created', async () => {

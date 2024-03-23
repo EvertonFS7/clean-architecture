@@ -7,7 +7,7 @@ import { SendNotificationUseCase } from '../use-cases/send-notification'
 export class OnAnswerCreated implements EventHandler {
   constructor(
     private questionsRepository: QuestionsRepository,
-    private sendNotification: SendNotificationUseCase
+    private sendNotification: SendNotificationUseCase,
   ) {
     this.setupSubscriptions()
   }
@@ -20,13 +20,15 @@ export class OnAnswerCreated implements EventHandler {
   }
 
   private async sendNewAnswerNotification({ answer }: AnswerCreatedEvent) {
-    const question = await this.questionsRepository.findById(answer.questionId.toString())
+    const question = await this.questionsRepository.findById(
+      answer.questionId.toString(),
+    )
     if (question) {
-      await this.sendNotification.execute({ 
-        recipientId: question.authorId.toString(), 
+      await this.sendNotification.execute({
+        recipientId: question.authorId.toString(),
         title: `Nova resposta em "${question.title.substring(0, 40).concat('...')}"`,
-        content: answer.excerpt
-       })
+        content: answer.excerpt,
+      })
     }
   }
 }

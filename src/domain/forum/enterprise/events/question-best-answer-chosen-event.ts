@@ -10,8 +10,7 @@ export class QuestionBestAnswerChosenEvent implements DomainEvent {
 
   constructor(question: Question, bestAnswerId: UniqueEntityID) {
     this.question = question
-    this.bestAnswerId = bestAnswerId,
-    this.ocurredAt = new Date()
+    ;(this.bestAnswerId = bestAnswerId), (this.ocurredAt = new Date())
   }
 
   getAggregateId(): UniqueEntityID {
